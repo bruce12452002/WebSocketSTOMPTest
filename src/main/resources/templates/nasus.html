@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Spring Boot WebSocket Broadcast</title>
+
+</head>
+<body onload="disconnect()">
+<noscript><h2 style="color: #ff0000">瀏覽器不支援 WebSocket</h2></noscript>
+<div>
+    <div>
+        <button id="connect" onclick="connect();">開始連 WebSocket</button>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();">WebSocket 斷線</button>
+    </div>
+    <div id="conversationDiv">
+        <label>输入你要傳送的訊息</label><input type="text" id="name" />
+        <button id="sendName" onclick="sendName();">送出</button>
+        <p id="response"></p>
+    </div>
+</div>
+<script th:src="@{sockjs.min.js}"></script>
+<script th:src="@{stomp.min.js}"></script>
+<script th:src="@{jquery.js}"></script>
+<script type="text/javascript">
+    var stompClient = null;
+
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        $('#response').html();
+    }
+
+    function connect() {
+        console.log("client: connect 裡的方法");
+        var socket = new SockJS('/xxx'); // 連 SockJs 的 endpoint 是 /xxx 或 /ooo
+        stompClient = Stomp.over(socket); // 使用 STOMP 子協議的 WebSocket 客户端
+        stompClient.connect({}, function(frame) {
+            setConnected(true);
+            console.log('連接狀態= ' + frame);
+            // 路徑必需和後端的 @SendTo 一樣
+            stompClient.subscribe('/abc/hahaha', function(respnose) {
+                console.log("client: subscribe 裡的方法");
+                showResponse(JSON.parse(respnose.body).responseMessage);
+            });
+        });
+    }
+
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("WebSocket 斷線了");
+    }
+
+    function sendName() {
+        var name = $('#name').val();
+        stompClient.send("/kkk/mmm", {}, JSON.stringify({ 'name': name })); // 路徑必需和 @MessageMapping 一樣
+    }
+
+    function showResponse(message) {
+        // 接收返回的消息
+        var response = $("#response");
+        response.html(message);
+    }
+</script>
+</body>
+</html>
