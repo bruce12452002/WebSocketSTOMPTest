@@ -1,10 +1,15 @@
 package home.bruce.WebSocketSTOMPTest.entity;
 
-public class S2CMsg {
+import java.io.Serializable;
+
+public class S2CMsg implements Serializable {
     private String resMsg;
 
     public S2CMsg(String resMsg) {
         this.resMsg = resMsg;
+    }
+
+    public S2CMsg() {
     }
 
     public String getResMsg() {

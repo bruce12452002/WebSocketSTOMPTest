@@ -1,6 +1,8 @@
 package home.bruce.WebSocketSTOMPTest.entity;
 
-public class C2SMsg {
+import java.io.Serializable;
+
+public class C2SMsg implements Serializable {
     private String name;
 
     public String getName() {
@@ -10,4 +12,13 @@ public class C2SMsg {
     public void setName(String name) {
         this.name = name;
     }
+
+    public C2SMsg(String name) {
+        this.name = name;
+    }
+
+    public C2SMsg() {
+    }
+
+
 }
