@@ -16,13 +16,22 @@ public class WebSocketController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     /**
-     * @MessageMapping 是給 webSocket 用戶端使用的路徑
+     * @MessageMapping 是給 webSocket 用戶端使用的路徑，前端發送時會發過來
      * @SendTo 回傳的結果會廣播播到 /abc/hahaha，客戶端有訂閱就會收到
      */
-    @SubscribeMapping("/mmm")
+    @MessageMapping("/mmm")
     @SendTo("/abc/hahaha")
     public S2CMsg executeS2C(C2SMsg msg) {
         System.out.println("server: into executeS2C method");
         return new S2CMsg("Hi! I'm " + msg.getName());
+    }
+
+    /**
+     * @SubscribeMapping 被前端訂閱時會調用
+     */
+    @SubscribeMapping("/sub")
+    public S2CMsg testSubscribe(){
+        System.out.println("server: into testSubscribe method");
+        return new S2CMsg("QOO");
     }
 }

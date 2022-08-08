@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Spring Boot WebSocket Broadcast</title>
 
 </head>
@@ -13,10 +13,12 @@
         <button id="disconnect" disabled="disabled" onclick="disconnect();">WebSocket 斷線</button>
     </div>
     <div id="conversationDiv">
-        <label>输入你要傳送的訊息</label><input type="text" id="name" />
+        <label>输入你要傳送的訊息</label><input type="text" id="name"/>
         <button id="sendName" onclick="sendName();">送出</button>
         <p id="response"></p>
     </div>
+
+    <button id="sub" onclick="getSub();">訂閱</button>
 </div>
 <script th:src="@{sockjs.min.js}"></script>
 <script th:src="@{stomp.min.js}"></script>
@@ -39,9 +41,9 @@
             setConnected(true);
             console.log('連接狀態= ' + frame);
             // 路徑必需和後端的 @SendTo 一樣
-            stompClient.subscribe('/abc/hahaha', function(respnose) {
-                console.log("client: subscribe 裡的方法");
-                showResponse(JSON.parse(respnose.body).responseMessage);
+            stompClient.subscribe('/abc/hahaha', function(response) {
+                console.log("client: subscribe 裡的方法" + response.body);
+                showResponse(JSON.parse(response.body).resMsg);
             });
         });
     }
@@ -65,6 +67,19 @@
         var response = $("#response");
         response.html(message);
     }
+
+    function getSub() {
+        console.log("client: getSub 裡的方法");
+        console.log("stompClient=" + stompClient);
+
+        if (stompClient != null) {
+            stompClient.subscribe('/kkk/sub', (msg) => {
+                console.log('收到了=' + msg.body);
+            });
+        }
+    }
+
+
 </script>
 </body>
 </html>
