@@ -21,7 +21,7 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         System.out.println("連線成功後自動調用 afterConnected");
-        StompSession.Subscription subscribe = session.subscribe("/abc/hahaha", this);
+        StompSession.Subscription subscribe = session.subscribe("/broker1/hahaha", this); // 和 @SendTo 一樣
         StompSession.Receiptable send = session.send("/kkk/mmm", "{\"name\":\"monkey\"}");
         System.out.println("sessionId=" + session.getSessionId());
         super.afterConnected(session, connectedHeaders);

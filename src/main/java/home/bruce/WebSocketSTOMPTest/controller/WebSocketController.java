@@ -17,11 +17,11 @@ public class WebSocketController {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     /**
-     * @MessageMapping 是給 webSocket 用戶端使用的路徑，前端發送時會發過來
-     * @SendTo 回傳的結果會廣播播到 /abc/hahaha，客戶端有訂閱就會收到
+     * @MessageMapping 是給 webSocket 用戶端使用的路徑，用戶端「發送」時會發過來
+     * @SendTo 回傳的結果會廣播播到 /broker1/hahaha，客戶端有訂閱就會收到
      */
     @MessageMapping("/mmm")
-    @SendTo("/abc/hahaha")
+    @SendTo("/broker1/hahaha") // 前綴要對應 registry.enableSimpleBroker
     public S2CMsg executeS2C(C2SMsg msg) {
         System.out.println("server: into executeS2C method");
         return new S2CMsg("Hi! I'm " + msg.getName());
@@ -39,7 +39,7 @@ public class WebSocketController {
     @GetMapping("/publish")
     public String publish() {
         System.out.println("publish");
-        simpMessagingTemplate.convertAndSend("/abc/hahaha", new C2SMsg("dog"));
+        simpMessagingTemplate.convertAndSend("/broker1/hahaha", new C2SMsg("dog"));
         return "SUCCESS";
     }
 }

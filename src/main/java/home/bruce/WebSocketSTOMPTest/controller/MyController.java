@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MyController {
-    @GetMapping("/test")
+    @GetMapping("/toClient")
     public String test() {
         System.out.println("test");
-        return "nasus.html";
+        return "clientPublish.html";
     }
 }

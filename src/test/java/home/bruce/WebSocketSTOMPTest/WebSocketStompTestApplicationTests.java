@@ -26,7 +26,7 @@ class WebSocketStompTestApplicationTests {
          * 如果出現 The HTTP response from the server [400] did not permit the HTTP upgrade to WebSocket
          * 將 withSockJS() 註解，但前端就不能用了
          */
-        stompClient.connect("ws://127.0.0.1:8080/xxx", myStompSessionHandler);
+        stompClient.connect("ws://127.0.0.1:8080/endpoint1", myStompSessionHandler);
 
         while (true) {
         } // 不加無限迴圈的話，程式會立即停止

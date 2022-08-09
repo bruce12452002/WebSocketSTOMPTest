@@ -35,13 +35,13 @@
 
     function connect() {
         console.log("client: connect 裡的方法");
-        var socket = new SockJS('/xxx'); // 連 SockJs 的 endpoint 是 /xxx 或 /ooo
+        var socket = new SockJS('/endpoint1'); // 連 SockJs 的 endpoint 是 /endpoint1 或 /endpoint2
         stompClient = Stomp.over(socket); // 使用 STOMP 子協議的 WebSocket 客户端
         stompClient.connect({}, function(frame) {
             setConnected(true);
             console.log('連接狀態= ' + frame);
             // 路徑必需和後端的 @SendTo 一樣
-            stompClient.subscribe('/abc/hahaha', function(response) {
+            stompClient.subscribe('/broker1/hahaha', function(response) {
                 console.log("client: subscribe 裡的方法" + response.body);
                 showResponse(JSON.parse(response.body).resMsg);
             });
