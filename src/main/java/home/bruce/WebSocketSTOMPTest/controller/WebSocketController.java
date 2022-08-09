@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,8 +31,15 @@ public class WebSocketController {
      * @SubscribeMapping 被前端訂閱時會調用
      */
     @SubscribeMapping("/sub")
-    public S2CMsg testSubscribe(){
+    public S2CMsg testSubscribe() {
         System.out.println("server: into testSubscribe method");
         return new S2CMsg("QOO");
+    }
+
+    @GetMapping("/publish")
+    public String publish() {
+        System.out.println("publish");
+        simpMessagingTemplate.convertAndSend("/abc/hahaha", new C2SMsg("dog"));
+        return "SUCCESS";
     }
 }

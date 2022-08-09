@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class S2CMsg implements Serializable {
     private String resMsg;
 
-    public S2CMsg(String resMsg) {
-        this.resMsg = resMsg;
+    public S2CMsg() {
     }
 
-    public S2CMsg() {
+    public S2CMsg(String resMsg) {
+        this.resMsg = resMsg;
     }
 
     public String getResMsg() {
